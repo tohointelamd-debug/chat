@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 <meta charset="UTF-8">
-<title>GitHub Old Chat</title>
+<title>Simple Chat</title>
 
 <style>
 body{
@@ -19,87 +20,31 @@ padding:10px;
 margin-bottom:10px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<h2>Old Browser Chat</h2>
+<h2>Public Chat</h2>
 
 <div id="chat"></div>
 
-<input id="msg">
+<input id="name" placeholder="name">
+<input id="msg" placeholder="message">
 <button onclick="send()">Send</button>
 
 <script>
 
-var owner = "USERNAME";
-var repo = "REPOSITORY";
-var token = "GITHUB_TOKEN";
-
-function load(){
-
-var xhr = new XMLHttpRequest();
-
-xhr.open(
-"GET",
-"https://api.github.com/repos/"+owner+"/"+repo+"/issues",
-true
-);
-
-xhr.onreadystatechange=function(){
-
-if(xhr.readyState==4){
-
-var data = JSON.parse(xhr.responseText);
-
-var chat=document.getElementById("chat");
-chat.innerHTML="";
-
-for(var i=data.length-1;i>=0;i--){
-
-var div=document.createElement("div");
-div.innerHTML=data[i].title;
-
-chat.appendChild(div);
-
-}
-
-}
-
-};
-
-xhr.send();
-
-}
-
 function send(){
-
+var name=document.getElementById("name").value;
 var text=document.getElementById("msg").value;
 
-var xhr=new XMLHttpRequest();
+var div=document.createElement("div");
+div.innerHTML="<b>"+name+"</b>: "+text;
 
-xhr.open(
-"POST",
-"https://api.github.com/repos/"+owner+"/"+repo+"/issues",
-true
-);
-
-xhr.setRequestHeader("Authorization","Bearer "+token);
-xhr.setRequestHeader("Content-Type","application/json");
-
-xhr.send(JSON.stringify({
-title:text
-}));
+document.getElementById("chat").appendChild(div);
 
 document.getElementById("msg").value="";
-
-setTimeout(load,1000);
-
 }
-
-setInterval(load,5000);
-
-load();
 
 </script>
 
