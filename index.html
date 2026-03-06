@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GitHub Old Chat</title>
+
+<style>
+body{
+font-family:sans-serif;
+max-width:600px;
+margin:auto;
+}
+
+#chat{
+border:1px solid #ccc;
+height:300px;
+overflow:auto;
+padding:10px;
+margin-bottom:10px;
+}
+</style>
+</head>
+
+<body>
+
+<h2>Old Browser Chat</h2>
+
+<div id="chat"></div>
+
+<input id="msg">
+<button onclick="send()">Send</button>
+
+<script>
+
+var owner = "USERNAME";
+var repo = "REPOSITORY";
+var token = "GITHUB_TOKEN";
+
+function load(){
+
+var xhr = new XMLHttpRequest();
+
+xhr.open(
+"GET",
+"https://api.github.com/repos/"+owner+"/"+repo+"/issues",
+true
+);
+
+xhr.onreadystatechange=function(){
+
+if(xhr.readyState==4){
+
+var data = JSON.parse(xhr.responseText);
+
+var chat=document.getElementById("chat");
+chat.innerHTML="";
+
+for(var i=data.length-1;i>=0;i--){
+
+var div=document.createElement("div");
+div.innerHTML=data[i].title;
+
+chat.appendChild(div);
+
+}
+
+}
+
+};
+
+xhr.send();
+
+}
+
+function send(){
+
+var text=document.getElementById("msg").value;
+
+var xhr=new XMLHttpRequest();
+
+xhr.open(
+"POST",
+"https://api.github.com/repos/"+owner+"/"+repo+"/issues",
+true
+);
+
+xhr.setRequestHeader("Authorization","Bearer "+token);
+xhr.setRequestHeader("Content-Type","application/json");
+
+xhr.send(JSON.stringify({
+title:text
+}));
+
+document.getElementById("msg").value="";
+
+setTimeout(load,1000);
+
+}
+
+setInterval(load,5000);
+
+load();
+
+</script>
+
+</body>
+</html>
