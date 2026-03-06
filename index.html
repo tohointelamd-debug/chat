@@ -3,50 +3,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Simple Chat</title>
+<title>My Chat</title>
 
 <style>
 body{
 font-family:sans-serif;
-max-width:600px;
-margin:auto;
+text-align:center;
 }
 
-#chat{
+iframe{
+width:90%;
+height:500px;
 border:1px solid #ccc;
-height:300px;
-overflow:auto;
-padding:10px;
-margin-bottom:10px;
 }
 </style>
 
 </head>
 <body>
 
-<h2>Public Chat</h2>
+<h2>Public Chat Room</h2>
 
-<div id="chat"></div>
-
-<input id="name" placeholder="name">
-<input id="msg" placeholder="message">
-<button onclick="send()">Send</button>
-
-<script>
-
-function send(){
-var name=document.getElementById("name").value;
-var text=document.getElementById("msg").value;
-
-var div=document.createElement("div");
-div.innerHTML="<b>"+name+"</b>: "+text;
-
-document.getElementById("chat").appendChild(div);
-
-document.getElementById("msg").value="";
-}
-
-</script>
+<iframe src="https://tlk.io/githubpageschat"></iframe>
 
 </body>
 </html>
